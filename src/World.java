@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -17,8 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 import javax.swing.JList;
+import javax.swing.AbstractListModel;
 
 
 public class World {
@@ -30,7 +31,8 @@ public class World {
 	private JTextField userName;
 	private JTextField amount;
 	
-	DefaultListModel personModel;
+	HashMap<String,Person> nameToPerson;	
+	DefaultListModel<String> personModel;
 
 	/**
 	 * Launch the application.
@@ -94,13 +96,13 @@ public class World {
 		send.setBounds(6, 390, 117, 29);
 		leftPanel.add(send);
 		
-		personModel = new DefaultListModel();
+		createPeople();
 		
-		JList fromList = new JList();
-		fromList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		fromList.setLayoutOrientation(JList.VERTICAL);
-		fromList.setBounds(6, 63, 45, -22);
-		leftPanel.add(fromList);
+		JList<String> list = new JList<String>();
+		list.setModel(personModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setBounds(6, 43, 50, 100);
+		leftPanel.add(list);
 		
 		JLabel lblTransactionHistory = new JLabel("Transaction History:");
 		lblTransactionHistory.setFont(new Font("Lucida Grande", Font.BOLD, 13));
@@ -183,5 +185,27 @@ public class World {
 		JButton btnNewButton = new JButton("Create Person");
 		btnNewButton.setBounds(6, 279, 117, 29);
 		rightPanel.add(btnNewButton);
+	}
+	
+	@SuppressWarnings("serial")
+	private void createPeople() {
+		Person alice = new Person("Alice");
+		Person bob = new Person("Bob");
+		Person david = new Person("David");
+		
+		nameToPerson = new HashMap<String, Person>();
+		nameToPerson.put("Alice", alice);
+		nameToPerson.put("Bob", bob);
+		nameToPerson.put("David", david);
+		
+		personModel = new DefaultListModel<String>() {
+			String[] values = new String[] {"Alice","Bob","David"};
+			public int getSize() {
+				return values.length;
+			}
+			public String getElementAt(int index) {
+				return values[index];
+			}
+		};
 	}
 }
