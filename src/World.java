@@ -1,0 +1,187 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+import java.awt.Font;
+
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JSeparator;
+
+import java.awt.Color;
+
+import javax.swing.JList;
+
+
+public class World {
+
+	private JFrame frame;
+	private JTextField zerosNeeded;
+	private JTextField miningReward;
+	private JTextField blocksTilHalf;
+	private JTextField userName;
+	private JTextField amount;
+	
+	DefaultListModel personModel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					World window = new World();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public World() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame("EduCoin");
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 1016, 478);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLocation(5, 5);
+		leftPanel.setSize(274, 445);
+		frame.getContentPane().add(leftPanel);
+		leftPanel.setLayout(null);
+		
+		JLabel lblFrom = new JLabel("From:");
+		lblFrom.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblFrom.setBounds(6, 6, 61, 16);
+		leftPanel.add(lblFrom);
+		
+		JLabel lblTo = new JLabel("To:");
+		lblTo.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblTo.setBounds(132, 6, 61, 16);
+		leftPanel.add(lblTo);
+		
+		JLabel lblAmount = new JLabel("Amount To Send:");
+		lblAmount.setBounds(6, 352, 127, 16);
+		leftPanel.add(lblAmount);
+		
+		amount = new JTextField();
+		amount.setBounds(145, 346, 110, 28);
+		leftPanel.add(amount);
+		amount.setColumns(10);
+		
+		JButton send = new JButton("Send Coins");
+		send.setBounds(6, 390, 117, 29);
+		leftPanel.add(send);
+		
+		personModel = new DefaultListModel();
+		
+		JList fromList = new JList();
+		fromList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		fromList.setLayoutOrientation(JList.VERTICAL);
+		fromList.setBounds(6, 63, 45, -22);
+		leftPanel.add(fromList);
+		
+		JLabel lblTransactionHistory = new JLabel("Transaction History:");
+		lblTransactionHistory.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblTransactionHistory.setBounds(291, 10, 165, 16);
+		frame.getContentPane().add(lblTransactionHistory);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(291, 38, 413, 358);
+		frame.getContentPane().add(scrollPane);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		scrollPane.setViewportView(textArea);
+		
+		JPanel rightPanel = new JPanel();
+		rightPanel.setBounds(724, 5, 286, 445);
+		frame.getContentPane().add(rightPanel);
+		rightPanel.setLayout(null);
+		
+		JLabel lblGlobalConstants = new JLabel("Global Constants:");
+		lblGlobalConstants.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblGlobalConstants.setBounds(6, 6, 129, 16);
+		rightPanel.add(lblGlobalConstants);
+		
+		JLabel lblNumberOfs = new JLabel("Number of 0's Needed to Mine:");
+		lblNumberOfs.setBounds(6, 34, 201, 16);
+		rightPanel.add(lblNumberOfs);
+		
+		zerosNeeded = new JTextField();
+		zerosNeeded.setText("2");
+		zerosNeeded.setBounds(215, 28, 47, 28);
+		rightPanel.add(zerosNeeded);
+		zerosNeeded.setColumns(10);
+		
+		JLabel lblMiningReward = new JLabel("Mining Reward:");
+		lblMiningReward.setBounds(6, 62, 129, 16);
+		rightPanel.add(lblMiningReward);
+		
+		miningReward = new JTextField();
+		miningReward.setText("25");
+		miningReward.setBounds(215, 56, 47, 28);
+		rightPanel.add(miningReward);
+		miningReward.setColumns(10);
+		
+		JLabel lblEachBlocks = new JLabel("Mining Reward Halved");
+		lblEachBlocks.setBounds(6, 90, 174, 16);
+		rightPanel.add(lblEachBlocks);
+		
+		blocksTilHalf = new JTextField();
+		blocksTilHalf.setText("50");
+		blocksTilHalf.setBounds(215, 84, 47, 28);
+		rightPanel.add(blocksTilHalf);
+		blocksTilHalf.setColumns(10);
+		
+		JButton updateBtn = new JButton("Update");
+		updateBtn.setBounds(6, 132, 117, 29);
+		rightPanel.add(updateBtn);
+		
+		JSeparator separator = new JSeparator();
+		separator.setForeground(Color.GRAY);
+		separator.setBounds(6, 189, 274, 12);
+		rightPanel.add(separator);
+		
+		JLabel lblAddNewUser = new JLabel("Add New User:");
+		lblAddNewUser.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		lblAddNewUser.setBounds(6, 212, 129, 16);
+		rightPanel.add(lblAddNewUser);
+		
+		JLabel lblName = new JLabel("Name:");
+		lblName.setBounds(6, 240, 61, 16);
+		rightPanel.add(lblName);
+		
+		userName = new JTextField();
+		userName.setBounds(62, 234, 168, 28);
+		rightPanel.add(userName);
+		userName.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Create Person");
+		btnNewButton.setBounds(6, 279, 117, 29);
+		rightPanel.add(btnNewButton);
+	}
+}
