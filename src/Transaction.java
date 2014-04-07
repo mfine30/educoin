@@ -1,4 +1,3 @@
-
 public class Transaction {
 	
 	Person sender;
@@ -7,8 +6,15 @@ public class Transaction {
 	String serialNumber;
 	boolean isApproved;
 	
-	public Transaction() {
-		
+	public Transaction(Person from, Person to, double amount) {
+		this.sender = from;
+		this.receiver = to;
+		this.amount = amount;
+		serialNumber = Person.getMD5(this.toString());
+	}
+	
+	public String getSerial() {
+		return serialNumber;
 	}
 	
 }

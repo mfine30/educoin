@@ -16,10 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
 
 
 public class World {
@@ -31,9 +32,16 @@ public class World {
 	private JTextField userName;
 	private JTextField amount;
 	
-	HashMap<String,Person> nameToPerson;	
+	JList<String> fromList;
+	JList<String> toList;
+	public static HashMap<String,Person> nameToPerson;	
 	DefaultListModel<String> personModel;
-
+	public static JTextArea history;
+	
+	static int zeros = 2;
+	static double reward = 25;
+	static double halvedEach = 50;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -94,15 +102,33 @@ public class World {
 		
 		JButton send = new JButton("Send Coins");
 		send.setBounds(6, 390, 117, 29);
+		send.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String from = fromList.getSelectedValue();
+				String to = toList.getSelectedValue();
+				double coinsToSend = Double.valueOf(amount.getText());
+				
+				Person user = nameToPerson.get(from);
+				user.sendTransaction(to, coinsToSend);
+			}
+
+		});
 		leftPanel.add(send);
 		
 		createPeople();
 		
-		JList<String> list = new JList<String>();
-		list.setModel(personModel);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setBounds(6, 43, 50, 100);
-		leftPanel.add(list);
+		fromList = new JList<String>();
+		fromList.setModel(personModel);
+		fromList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		fromList.setBounds(16, 34, 77, 194);
+		leftPanel.add(fromList);
+		
+		toList = new JList<String>();
+		toList.setModel(personModel);
+		toList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		toList.setBounds(142, 34, 77, 194);
+		leftPanel.add(toList);
 		
 		JLabel lblTransactionHistory = new JLabel("Transaction History:");
 		lblTransactionHistory.setFont(new Font("Lucida Grande", Font.BOLD, 13));
@@ -115,9 +141,10 @@ public class World {
 		scrollPane.setBounds(291, 38, 413, 358);
 		frame.getContentPane().add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		scrollPane.setViewportView(textArea);
+		history = new JTextArea();
+		history.setLineWrap(true);
+		history.setEditable(false);
+		scrollPane.setViewportView(history);
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBounds(724, 5, 286, 445);
@@ -161,6 +188,15 @@ public class World {
 		
 		JButton updateBtn = new JButton("Update");
 		updateBtn.setBounds(6, 132, 117, 29);
+		updateBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				zeros = Integer.valueOf(zerosNeeded.getText());
+				reward = Double.valueOf(miningReward.getText());
+				halvedEach = Double.valueOf(blocksTilHalf.getText());
+			}
+
+		});
 		rightPanel.add(updateBtn);
 		
 		JSeparator separator = new JSeparator();
