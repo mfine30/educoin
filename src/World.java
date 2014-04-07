@@ -18,6 +18,8 @@ import javax.swing.JSeparator;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.JList;
@@ -56,6 +58,8 @@ public class World {
 				}
 			}
 		});
+		Person p = new Person(null);
+		p.validate("Hello");
 	}
 
 	/**
@@ -218,9 +222,36 @@ public class World {
 		rightPanel.add(userName);
 		userName.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Create Person");
-		btnNewButton.setBounds(6, 279, 117, 29);
-		rightPanel.add(btnNewButton);
+		JButton addPersonButton = new JButton("Create Person");
+		addPersonButton.setBounds(6, 279, 117, 29);
+		addPersonButton.addActionListener(new ActionListener() {
+
+			@Override
+			//We add a new person to the DefaultListModel and HashMap
+			public void actionPerformed(ActionEvent e) {
+				String name = userName.getText();
+				Person p = new Person(name);
+				nameToPerson.put(name, p);
+
+				personModel = new DefaultListModel<String>();
+				ArrayList<String> people = new ArrayList<String>();
+
+				for (String person : nameToPerson.keySet()) {
+					person = Character.toUpperCase(person.charAt(0)) + person.substring(1);
+					people.add(person);
+				}
+				
+				Collections.sort(people);
+				for (String person : people)
+					personModel.addElement(person);
+				
+				fromList.setModel(personModel);
+				toList.setModel(personModel);
+				
+			}
+			
+		});
+		rightPanel.add(addPersonButton);
 	}
 	
 	@SuppressWarnings("serial")
