@@ -82,7 +82,6 @@ public class Person {
 					});
 					System.out.println("here");
 					for (Person p : people) {
-						//blockChain.remove(blockChain.size() - 1);
 						blockChain.remove(t);
 					}
 					t.reject();
@@ -125,12 +124,12 @@ public class Person {
 			System.out.println(curSender.getName() + ": " + amount);
 		}		
 		
-		for (Transaction tran : blockChain) {
-			System.out.println("Transaction: ");
-			System.out.println("Sender: " + tran.sender.getName());
-			System.out.println("Receiver: " + tran.receiver.getName());
-			System.out.println("Amount: " + tran.amount);
-		}
+//		for (Transaction tran : blockChain) {
+//			System.out.println("Transaction: ");
+//			System.out.println("Sender: " + tran.sender.getName());
+//			System.out.println("Receiver: " + tran.receiver.getName());
+//			System.out.println("Amount: " + tran.amount);
+//		}
 		
 		if (amount >= 0) {
 			validate(t.getSerial(), p);
@@ -139,7 +138,7 @@ public class Person {
 			if (blockChain.size() >= 3) {
 				boolean findNext = false;
 				int i = 0;
-				while (!findNext && i < blockChain.size()) {
+				while (!findNext && i < blockChain.size() && blockChain.size() > 5) {
 					Transaction temp = blockChain.get(i);
 					if (!temp.rejected && !temp.isApproved) {
 						temp.approve();

@@ -283,6 +283,10 @@ public class World {
 		Transaction two = new Transaction(genesis, nameToPerson.get("Bob"),100,this);
 		Transaction three = new Transaction(genesis, nameToPerson.get("David"),100,this);
 		
+		one.approve();
+		two.approve();
+		three.approve();
+		
 		Person alice = nameToPerson.get("Alice");
 		alice.blockChain.add(one);
 		alice.blockChain.add(two);
