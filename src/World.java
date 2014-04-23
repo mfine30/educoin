@@ -19,10 +19,15 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.JList;
+
+import java.awt.FlowLayout;
+
+import javax.swing.JTextPane;
 
 
 public class World {
@@ -34,11 +39,14 @@ public class World {
 	private JTextField userName;
 	private JTextField amount;
 	
+	
 	JList<String> fromList;
 	JList<String> toList;
 	public static HashMap<String,Person> nameToPerson;	
 	DefaultListModel<String> personModel;
 	public static JTextArea history;
+	private static JPanel bottomPanel;
+	static World window;
 	
 	static int zeros = 2;
 	static double reward = 25;
@@ -51,15 +59,13 @@ public class World {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					World window = new World();
+					window = new World();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		Person p = new Person(null);
-		p.validate("Hello");
 	}
 
 	/**
@@ -75,7 +81,7 @@ public class World {
 	private void initialize() {
 		frame = new JFrame("EduCoin");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 1016, 478);
+		frame.setBounds(100, 100, 1016, 832);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -114,7 +120,7 @@ public class World {
 				double coinsToSend = Double.valueOf(amount.getText());
 				
 				Person user = nameToPerson.get(from);
-				user.sendTransaction(to, coinsToSend);
+				user.sendTransaction(to, coinsToSend, window);
 			}
 
 		});
@@ -241,6 +247,8 @@ public class World {
 					people.add(person);
 				}
 				
+				p.copyBlockChain(nameToPerson.get("Alice"));
+				
 				Collections.sort(people);
 				for (String person : people)
 					personModel.addElement(person);
@@ -252,13 +260,46 @@ public class World {
 			
 		});
 		rightPanel.add(addPersonButton);
+		
+		bottomPanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) bottomPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		bottomPanel.setBounds(6, 462, 1004, 266);
+		frame.getContentPane().add(bottomPanel);
+		
+		JTextPane blockKey = new JTextPane();
+		blockKey.setText("SerialNumber\nSender\nReceiver\nAmount");
+		blockKey.setBackground(Color.WHITE);
+		bottomPanel.add(blockKey);
+		
+		populateGenesisBlocks();
+		
+	}
+	
+	public void populateGenesisBlocks() {
+		Person genesis = new Person("World");
+		
+		Transaction one = new Transaction(genesis,nameToPerson.get("Alice"),100,this);
+		Transaction two = new Transaction(genesis, nameToPerson.get("Bob"),100,this);
+		Transaction three = new Transaction(genesis, nameToPerson.get("David"),100,this);
+		
+		Person alice = nameToPerson.get("Alice");
+		alice.blockChain.add(one);
+		alice.blockChain.add(two);
+		alice.blockChain.add(three);
+		
+		nameToPerson.get("Bob").copyBlockChain(alice);
+		nameToPerson.get("David").copyBlockChain(alice);
 	}
 	
 	@SuppressWarnings("serial")
 	private void createPeople() {
 		Person alice = new Person("Alice");
+		alice.updateWallet(100);
 		Person bob = new Person("Bob");
+		bob.updateWallet(100);
 		Person david = new Person("David");
+		david.updateWallet(100);
 		
 		nameToPerson = new HashMap<String, Person>();
 		nameToPerson.put("Alice", alice);
@@ -274,5 +315,18 @@ public class World {
 				return values[index];
 			}
 		};
+	}
+	
+	public JPanel getBottomPanel() {
+		return bottomPanel;
+	}
+	
+	public ArrayList<Person> getPeople() {
+		ArrayList<Person> people = new ArrayList<Person>();
+		
+		for (String name : nameToPerson.keySet())
+			people.add(nameToPerson.get(name));
+		
+		return people;
 	}
 }
