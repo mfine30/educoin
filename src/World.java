@@ -81,7 +81,7 @@ public class World {
 	private void initialize() {
 		frame = new JFrame("EduCoin");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 1016, 832);
+		frame.setBounds(100, 100, 1016, 596);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -264,8 +264,12 @@ public class World {
 		bottomPanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) bottomPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		bottomPanel.setBounds(6, 462, 1004, 266);
-		frame.getContentPane().add(bottomPanel);
+//		bottomPanel.setBounds(6, 462, 1004, 266);
+//		frame.getContentPane().add(bottomPanel);
+		
+		JScrollPane bottomScroll = new JScrollPane(bottomPanel);
+		bottomScroll.setBounds(6, 462, 1004, 106);
+		frame.getContentPane().add(bottomScroll);
 		
 		JTextPane blockKey = new JTextPane();
 		blockKey.setText("SerialNumber\nSender\nReceiver\nAmount");
@@ -299,11 +303,8 @@ public class World {
 	@SuppressWarnings("serial")
 	private void createPeople() {
 		Person alice = new Person("Alice");
-		alice.updateWallet(100);
 		Person bob = new Person("Bob");
-		bob.updateWallet(100);
 		Person david = new Person("David");
-		david.updateWallet(100);
 		
 		nameToPerson = new HashMap<String, Person>();
 		nameToPerson.put("Alice", alice);

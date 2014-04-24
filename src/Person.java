@@ -8,23 +8,10 @@ import javax.swing.*;
 public class Person {
 	String name;
 	ArrayList<Transaction> blockChain;
-	double wallet;
 	
 	public Person(String name) {
 		this.name = name;
 		blockChain = new ArrayList<Transaction>();
-		wallet = 0;
-	}
-	
-	/*
-	 * Amount to deposit or withdraw from wallet
-	 */
-	public void updateWallet(double delta) {
-		wallet += delta;
-	}
-	
-	public double getWallet() {
-		return wallet;
 	}
 	
 	public String getName() {
@@ -71,13 +58,13 @@ public class Person {
 						@Override
 						public void run() {
 							//World.history.append(message + " encrypted as " + hash + "\n");
-							World.history.append(name + " created a transaction with serial number " + t.getSerial() + "\n");						
+							World.history.append(name + " created a transaction with serial number " + t.getSerial() + "\n");
 						}							
 					});
 				} else {
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							World.history.append(me.getName() + " does not have enough coins for transaction + " + t.getSerial() +"\n");
+							World.history.append(me.getName() + " does not have enough coins for transaction " + t.getSerial() +"\n");
 						}
 					});
 					System.out.println("here");
