@@ -60,7 +60,7 @@ public class Person {
 				//propogate transaction to the world
 				final ArrayList<Person> people = window.getPeople();
 				propogateTransaction(t, people);
-				boolean valid = findValidator(t, people);
+				boolean valid = findValidator(t, people, window);
 				
 				if (valid) {
 				
@@ -94,7 +94,7 @@ public class Person {
 	/*
 	 * Randomly choose a peer who is not the sender or receive to validate the transaction and receive the mining reward
 	 */
-	public boolean findValidator(Transaction t, ArrayList<Person> people) {
+	public boolean findValidator(Transaction t, ArrayList<Person> people, final World window) {
 		Random r = new Random();
 		Person p = null;
 		boolean found = false;
@@ -140,7 +140,7 @@ public class Person {
 				int i = 0;
 				while (!findNext && i < blockChain.size() && blockChain.size() > 5) {
 					Transaction temp = blockChain.get(i);
-					if (!temp.rejected && !temp.isApproved) {
+					if (!temp.rejected && !temp.isApproved && !temp.fromWorld) {
 						temp.approve();
 						findNext = true;
 					}
@@ -148,7 +148,10 @@ public class Person {
 				}
 			}
 			//reward the miner
-			//p.updateWallet(World.reward);
+			Transaction reward = new Transaction(new Person("World"), p, World.reward, window);
+			reward.fromWorld();
+			propogateTransaction(reward, people);
+			
 			System.out.println("True");
 			return true;			
 		}

@@ -283,9 +283,9 @@ public class World {
 		Transaction two = new Transaction(genesis, nameToPerson.get("Bob"),100,this);
 		Transaction three = new Transaction(genesis, nameToPerson.get("David"),100,this);
 		
-		one.approve();
-		two.approve();
-		three.approve();
+		one.fromWorld();
+		two.fromWorld();
+		three.fromWorld();
 		
 		Person alice = nameToPerson.get("Alice");
 		alice.blockChain.add(one);

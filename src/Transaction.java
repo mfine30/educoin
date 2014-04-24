@@ -11,6 +11,7 @@ public class Transaction {
 	String serialNumber;
 	boolean isApproved;
 	boolean rejected;
+	boolean fromWorld;
 	JTextPane pane;
 	Color color;
 	World window;
@@ -53,6 +54,11 @@ public class Transaction {
 	public void approve() {
 		isApproved = true;
 		repaint(Color.GREEN);				
+	}
+	
+	public void fromWorld() {
+		fromWorld = true;
+		repaint(Color.MAGENTA);
 	}
 	
 	public void repaint(Color c) {
