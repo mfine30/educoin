@@ -3,6 +3,15 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
+/* 
+ * Block colors:
+ * 		Green 		= APPROVED
+ * 		RED   		= REJECTED
+ * 		YELLOW 		= PENDING-APPROVAL
+ * 		MAGENTA		= FROM-WORLD
+ */
+
+
 public class Transaction {
 	
 	Person sender;

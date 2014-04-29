@@ -49,6 +49,7 @@ public class Person {
 				propogateTransaction(t, people);
 				boolean valid = findValidator(t, people, window);
 				
+				//We have enough coins to commit transaction
 				if (valid) {
 				
 					//final String message = name + " wants to send " + amount + " educoins to " + to;
@@ -61,13 +62,15 @@ public class Person {
 							World.history.append(name + " created a transaction with serial number " + t.getSerial() + "\n");
 						}							
 					});
+					
+				//Can't spend what you don't have
 				} else {
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							World.history.append(me.getName() + " does not have enough coins for transaction " + t.getSerial() +"\n");
 						}
 					});
-					System.out.println("here");
+					//Remove from transaction from everyone's block chain
 					for (Person p : people) {
 						blockChain.remove(t);
 					}
@@ -148,6 +151,7 @@ public class Person {
 	
 	/*
 	 * Sender will tell everyone in the world about the new transaction
+	 * TODO: Each person should have an address book and update their address book of the changes
 	 */
 	public void propogateTransaction(Transaction t, ArrayList<Person> people) {
 		for (Person p : people) {
@@ -160,6 +164,7 @@ public class Person {
 	
 	/*
 	 * This is the validation method. Essentially forces you to do work to approve a block
+	 * TODO: a block should only be approved once a quorum of users is met
 	 */
 	public void validate(final String s, final Person p) {
 		final int requiredZeros = World.zeros;				
