@@ -46,6 +46,7 @@ public class World {
 	DefaultListModel<String> personModel;
 	public static JTextArea history;
 	private static JPanel bottomPanel;
+	private static JScrollPane bottomScroll;
 	static World window;
 	
 	static int zeros = 2;
@@ -267,7 +268,7 @@ public class World {
 //		bottomPanel.setBounds(6, 462, 1004, 266);
 //		frame.getContentPane().add(bottomPanel);
 		
-		JScrollPane bottomScroll = new JScrollPane(bottomPanel);
+		bottomScroll = new JScrollPane(bottomPanel);
 		bottomScroll.setBounds(6, 462, 1004, 106);
 		frame.getContentPane().add(bottomScroll);
 		
@@ -324,6 +325,10 @@ public class World {
 	
 	public JPanel getBottomPanel() {
 		return bottomPanel;
+	}
+	
+	public JScrollPane getBottomScroll() {
+		return bottomScroll;
 	}
 	
 	public ArrayList<Person> getPeople() {
